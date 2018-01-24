@@ -1,0 +1,8 @@
+server:
+    servlet:
+      context-path: /dev/api
+logging:
+    level:
+      org.springframework.web*: ERROR
+      com.project.locate*: INFO
+    path: project/logs

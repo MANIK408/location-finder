@@ -1,0 +1,22 @@
+server:
+   servlet:
+    context-path: /local/api  
+google:
+  location:
+    uri: https://maps.googleapis.com/maps/api/place/queryautocomplete/json?key=
+    key: AIzaSyA_NS9JFYgkEm3HOHeDtDok_g3PVI-2MY4
+    querystring: input=
+    lang.attribute: language=
+    lang.pref: en
+canadapost:
+  location:
+    key: MY77-PY97-PC51-MT39    
+    
+logging:
+    level:
+      org.springframework.web*: ERROR
+      com.project.locate*: INFO
+    pattern:
+      console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
+      file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+    file: c:/ALL/Microservices/application.log

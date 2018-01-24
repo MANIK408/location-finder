@@ -1,0 +1,123 @@
+swagger: '2.0'
+info:
+  description: Get the address from the location service
+  version: 1.0.0
+  title: Locations
+  termsOfService: TBD
+  contact:
+    name: eDemo 
+    url: 'http://eDemo.api.com'
+  license:
+    name: Location Finder
+  x-implemented-by:
+    - Manik and Team
+basePath: /api/
+paths:
+  '/addresses':
+    get:
+      tags:
+        - Addresses
+      summary: Retrieve list of addresses
+      description: >
+        Bases on the provided search criteria. This service will provide the list of likely addresses.
+      operationId: get address
+      produces:
+        - application/json
+      parameters:
+        - name: authorization
+          in: header
+          description: The auth token - JWT
+          type: string
+          required: true
+        - name: search_key
+          in: query
+          description: Search criteria for the location
+          required: true
+          type: string
+        - name: search_api
+          in: query
+          description: Search api for the location
+          required: false
+          type: string
+      responses:
+        '200':
+          description: Return an address or List of addresses based on search criteria
+          schema:
+            $ref: '#/definitions/AddressesResponse'
+        '400':
+          description: >-
+            Indicates that the server could not understand the request.
+          schema:
+            $ref: '#/definitions/EmptyDataResponse'
+        '401':
+          description: >-
+            Unauthorized.  This will be returned when no authentication
+            information is provided.
+          schema:
+            $ref: '#/definitions/EmptyDataResponse'
+        '403':
+          description: >-
+            The principal associated with the request does not have sufficent
+            rights to preform this operation on the requested resource.
+          schema:
+            $ref: '#/definitions/EmptyDataResponse'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/EmptyDataResponse'
+   
+definitions:
+  AddressesResponse:
+    type: object
+    description: An array of transactions and cursor information
+    properties:
+      data:
+        type: array
+        description: One transaction object
+        items:
+          $ref: '#/definitions/Addresses'
+          
+      notifications:
+        type: array
+        items:
+          $ref: '#/definitions/Notification'
+  Addresses:
+    description: An array of addresses.
+    type: object
+    properties:
+      address:
+        type: string
+        description: propery binded with address.
+      
+  Notification:
+    type: object
+    properties:
+      code:
+        type: string
+        example: E401xxxxxx
+        description: 'Notification code. First character indicates severity (E,W,I).'
+      message:
+        type: string
+        example: Something is invalid
+        description: >-
+          Description of the error or information notification. 
+      uuid:
+        type: string
+        example: aadde-ddddee-eeeedd-eeeedd
+        description: Unique identifier for this notification
+      timestamp:
+        type: string
+        format: date-time
+        example: 2018-01-12T20:38:45.408Z
+        description: Timestamp of the notification
+  EmptyDataResponse:
+    type: object
+    properties:
+      data:
+        type: string
+        example: null
+      notifications:
+        type: array
+        items:
+          $ref: '#/definitions/Notification'
+        description: Context specific to this area. May not be provided.
